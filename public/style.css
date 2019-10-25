@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
+
+body{
+    background: rgb(0, 142, 204);
+    text-align: center;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+}
+
+#lat-long, p{
+    background-color: rgb(118, 226, 245);
+    color: black;
+    padding: 20px;
+    width: 600px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+#lat, #lon{
+    font-weight: bold;
+}
+
+#submit{
+    background: rgb(193, 243, 255);
+    border: 1px solid black;
+    width: 100px;
+    padding: 5px;
+    font-family: 'Nunito', sans-serif;
+}
+
+a, a:visited{
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+}
+
+a:hover{
+    background: rgb(1, 111, 158);
+}
+
+#checkinMap
+        {
+            height: 800px;
+            width: 100%;
+            margin: 25px auto;
+        }
+
+/* p{
+    background-color: aqua;
+    padding: 20px;
+    width: 250px;
+    font-family: consolas;
+    margin: 20px auto;
+} */
+

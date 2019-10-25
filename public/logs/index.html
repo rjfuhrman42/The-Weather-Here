@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Weather App</title>
+  <meta name="description" content="Data Selfie App">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+   <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin=""></script>
+  
+
+</head>
+    <body>
+        <h1>Weather App</h1>
+        <a href="index.html">view checkins</a> |
+        <a href="../index.html">checkin!</a>
+        <div id="checkinMap"></div>
+        <script>
+            async function getData() {
+                const response = await fetch('/api');
+                const data = await response.json();
+               
+                 for (item of data)
+                 {
+                    
+                    if(item.air.value === -1)
+                    {
+                        L.marker([item.lat, item.lon]).addTo(mymap)
+                        .bindPopup(`
+                        <b>Latitude</b>: ${item.lat}<br>
+                        <b>Longitude</b>: ${item.lon}<br>
+                        <b>Weather</b>: ${item.weather.temperature.toPrecision(2)}°F and ${item.weather.summary}<br>
+                        No air quality info is available for this location`)
+                    }
+                    else{
+                        L.marker([item.lat, item.lon]).addTo(mymap)
+                        .bindPopup(`
+                        <b>Latitude</b>: ${item.lat}<br>
+                        <b>Longitude</b>: ${item.lon}<br>
+                        <b>Weather</b>: ${item.weather.temperature.toPrecision(2)}°F and ${item.weather.summary}<br>
+                        The concentration of particulate matter (${item.air.parameter})<br>
+                        was ${item.air.value} ${item.air.unit} last updated on ${item.air.lastUpdated}`)
+                    }
+
+                //     const root = document.createElement('p');
+                //     const lat = document.createElement('div');
+                //     const lon = document.createElement('div');
+                //     const weather = document.createElement('div');
+                //     const air_quality = document.createElement('div');
+
+        
+
+                //     lat.textContent = `Latitude: ${item.lat}`;
+                //     lon.textContent = `Longitude: ${item.lon}`;
+                //     weather.textContent = `Weather: ${item.weather.temperature}`;
+                //    // air_quality.textContent = `AQ: ${item.air_quality}`;
+                //     // const time = document.createElement('p');
+                //     // time.textContent = `timestamp: ${item.timestamp}`;
+
+                //     root.append(lat, lon, weather);
+                //     document.body.append(root);
+                    }
+            }
+
+            const mymap = L.map('checkinMap').setView([0, 0], 3);
+
+            const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+            const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            const tiles = L.tileLayer(tileURL, {attribution});
+            tiles.addTo(mymap);
+            
+            getData();
+        </script>
+    </body>
+</html>
